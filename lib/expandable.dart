@@ -86,6 +86,8 @@ class ExpandableThemeData {
   /// If true, the body of [ExpandablePanel] can be clicked by the user to expand.
   final bool? tapBodyToExpand;
 
+  final Color? backColor;
+
   /// If true, the body of [ExpandablePanel] can be clicked by the user to collapse.
   final bool? tapBodyToCollapse;
 
@@ -116,6 +118,7 @@ class ExpandableThemeData {
     this.iconColor,
     this.useInkWell,
     this.animationDuration,
+    this.backColor,
     this.scrollAnimationDuration,
     this.crossFadePoint,
     this.fadeCurve,
@@ -168,6 +171,7 @@ class ExpandableThemeData {
             theme.tapBodyToCollapse ?? defaults.tapBodyToCollapse,
         hasIcon: theme.hasIcon ?? defaults.hasIcon,
         iconSize: theme.iconSize ?? defaults.iconSize,
+        backColor: theme.backColor ?? defaults.backColor,
         iconPadding: theme.iconPadding ?? defaults.iconPadding,
         iconRotationAngle:
             theme.iconRotationAngle ?? defaults.iconRotationAngle,
@@ -205,6 +209,7 @@ class ExpandableThemeData {
         this.crossFadePoint != null &&
         this.fadeCurve != null &&
         this.sizeCurve != null &&
+        this.backColor != null &&
         this.alignment != null &&
         this.headerAlignment != null &&
         this.bodyAlignment != null &&
@@ -229,6 +234,7 @@ class ExpandableThemeData {
           this.scrollAnimationDuration == o.scrollAnimationDuration &&
           this.crossFadePoint == o.crossFadePoint &&
           this.fadeCurve == o.fadeCurve &&
+          this.backColor == o.backColor &&
           this.sizeCurve == o.sizeCurve &&
           this.alignment == o.alignment &&
           this.headerAlignment == o.headerAlignment &&
@@ -553,13 +559,18 @@ class ExpandablePanel extends StatelessWidget {
               wrap: !theme.tapHeaderToExpand!)
         ];
         return wrapWithExpandableButton(
-            widget: Row(
+            widget: Container( child : Row(
               crossAxisAlignment: calculateHeaderCrossAxisAlignment(),
               children:
                   theme.iconPlacement! == ExpandablePanelIconPlacement.right
                       ? rowChildren
                       : rowChildren.reversed.toList(),
             ),
+              decoration: BoxDecoration(
+                  color: theme.backColor,
+                borderRadius: BorderRadius.circular(10)
+              ),
+      ),
             wrap: theme.tapHeaderToExpand!);
       }
     }
